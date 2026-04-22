@@ -1,4 +1,4 @@
-# dior-agent
+# nezha-agent
 
 To install dependencies:
 

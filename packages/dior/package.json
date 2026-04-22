@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json.schemastore.org/package.json",
+  "version": "0.0.1",
+  "name": "nezha-agent",
+  "type": "module",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "bun test --timeout 30000",
+    "build": "bun run script/build.ts",
+    "dev": "bun run --conditions=browser ./src/index.ts"
+  },
+  "bin": {
+    "nezha": "./bin/nezha"
+  },
+  "exports": {
+    "./*": "./src/*.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "catalog:",
+    "typescript": "catalog:"
+  },
+  "dependencies": {
+    "ai": "catalog:",
+    "effect": "catalog:",
+    "yargs": "18.0.0",
+    "zod": "catalog:"
+  }
+}

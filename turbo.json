@@ -1,0 +1,16 @@
+{
+  "$schema": "https://v2-8-13.turborepo.dev/schema.json",
+  "tasks": {
+    "typecheck": {},
+    "build": {
+      "dependsOn": [],
+      "outputs": ["dist/**"]
+    },
+    "opencode#test": {
+      "dependsOn": ["^build"],
+      "outputs": [],
+      // 这意味着你的所有任务（如 build 、 test 等）都可以访问系统中的所有环境变量。
+      "passThroughEnv": ["*"]
+    }
+  }
+}
