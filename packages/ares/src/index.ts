@@ -1,41 +1,48 @@
 // oxlint-disable typescript/no-floating-promises
 import yargs from "yargs"
 import { hideBin } from "yargs/helpers"
+import { EOL } from "os"
 // 引入 package.json
 import packageJson from "../package.json" with { type: "json" }
+import { UI } from "./cli/ui"
 
-const cli = yargs(hideBin(process.argv))
+function show(out: string) {
+  const text = out.trimStart()
+  if (!text.startsWith("ares ")) {
+    process.stderr.write(UI.logo() + EOL + EOL)
+    process.stderr.write(text)
+    return
+  }
+  process.stderr.write(out)
+}
 
-cli
-  // 动态读取并设置版本号
+const args = hideBin(process.argv)
+
+const cli = yargs(args)
+  .scriptName("ares")
+  .wrap(100)
+  .alias("help", "h")
   .version(packageJson.version)
-  .help()
-  .command(
-    "chat",
-    "Start a chat session",
-    (yargs) => {
-      return yargs.option("model", {
-        type: "string",
-        description: "AI model to use",
-        default: "gpt-4",
-      })
-    },
-    (argv) => {
-      console.log(`Starting chat with model: ${argv.model}`)
-    },
-  )
-  // 新增 debug 命令
-  .command(
-    "debug",
-    "Print environment info for debugging",
-    () => {},
-    () => {
-      console.log("--- Debug Info ---")
-      console.log(`Version  : ${packageJson.version}`)
-      console.log(`Platform : ${process.platform}`)
-      console.log(`Node/Bun : ${process.version}`)
-      console.log(`CWD      : ${process.cwd()}`)
-    },
-  )
-  .demandCommand(1, "You need at least one command before moving on")
-  .parse()
+  .alias("version", "v")
+  .usage("")
+  .strict()
+
+try {
+  if (args.includes("-h") || args.includes("--help")) {
+    await cli.parse(args, (err: Error | undefined, _argv: unknown, out: string) => {
+      if (err) throw err
+      if (!out) return
+      show(out)
+    })
+  } else {
+    await cli.parse()
+  }
+} catch {
+  process.exitCode = 1
+} finally {
+  // Some subprocesses don't react properly to SIGTERM and similar signals.
+  // Most notably, some docker-container-based MCP servers don't handle such signals unless
+  // run using `docker run --init`.
+  // Explicitly exit to avoid any hanging subprocesses.
+  process.exit()
+}
