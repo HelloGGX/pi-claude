@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
   "version": "0.0.1",
-  "name": "nezha-agent",
+  "name": "ares",
   "type": "module",
   "license": "MIT",
   "private": true,
@@ -12,16 +12,19 @@
     "dev": "bun run --conditions=browser ./src/index.ts"
   },
   "bin": {
-    "nezha": "./bin/nezha"
+    "ares": "./bin/ares"
   },
   "exports": {
     "./*": "./src/*.ts"
   },
   "devDependencies": {
     "@types/bun": "catalog:",
+    "@types/yargs": "17.0.35",
     "typescript": "catalog:"
   },
   "dependencies": {
+    "@opentui/solid": "catalog:",
+    "@opentui/core": "catalog:",
     "ai": "catalog:",
     "effect": "catalog:",
     "yargs": "18.0.0",

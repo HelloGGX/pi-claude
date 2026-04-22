@@ -1,4 +1,4 @@
-# nezha-agent
+# ares-agent
 
 To install dependencies:
 
