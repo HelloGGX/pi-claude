@@ -4,12 +4,11 @@ import { hideBin } from "yargs/helpers"
 import { EOL } from "os"
 // 引入 package.json
 import packageJson from "../package.json" with { type: "json" }
-import { UI } from "./cli/ui"
 
 function show(out: string) {
   const text = out.trimStart()
   if (!text.startsWith("ares ")) {
-    process.stderr.write(UI.logo() + EOL + EOL)
+    process.stderr.write("ARES" + EOL + EOL)
     process.stderr.write(text)
     return
   }
@@ -40,9 +39,5 @@ try {
 } catch {
   process.exitCode = 1
 } finally {
-  // Some subprocesses don't react properly to SIGTERM and similar signals.
-  // Most notably, some docker-container-based MCP servers don't handle such signals unless
-  // run using `docker run --init`.
-  // Explicitly exit to avoid any hanging subprocesses.
   process.exit()
 }
