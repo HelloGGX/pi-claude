@@ -2,6 +2,7 @@
 import yargs from "yargs"
 import { hideBin } from "yargs/helpers"
 import { EOL } from "os"
+import { TuiThreadCommand } from "./cli/cmd/tui/thread"
 // 引入 package.json
 import packageJson from "../package.json" with { type: "json" }
 
@@ -24,6 +25,7 @@ const cli = yargs(args)
   .version(packageJson.version)
   .alias("version", "v")
   .usage("")
+  .command(TuiThreadCommand)
   .strict()
 
 try {
