@@ -29,6 +29,7 @@
     "effect": "catalog:",
     "jsonc-parser": "3.3.1",
     "yargs": "18.0.0",
-    "zod": "catalog:"
+    "zod": "catalog:",
+    "solid-js": "catalog:"
   }
 }
