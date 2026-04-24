@@ -1,6 +1,8 @@
 import { createCliRenderer } from "@opentui/core"
-import { render } from "@opentui/solid"
+import { render, TimeToFirstDraw, useTerminalDimensions } from "@opentui/solid"
 import { ArgsProvider, type Args } from "./context/args"
+import { createSignal, Show, Switch } from "solid-js" 
+import { Home } from "./routes/home"
 
 export function tui(input: { args: Args }) {
   return new Promise<void>(async (resolve) => {
@@ -16,5 +18,18 @@ export function tui(input: { args: Args }) {
 }
 
 function App() {
-  return <text>fallback-statusbar</text>
+  const dimensions = useTerminalDimensions()
+  const [ready, setReady] = createSignal(true)
+
+  return (
+     <box
+      width={dimensions().width}
+      height={dimensions().height}
+    >
+      <Show when={false}>
+        <TimeToFirstDraw />
+      </Show>
+      <Home />
+    </box>
+  )
 }
